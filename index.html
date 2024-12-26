@@ -111,8 +111,12 @@
             border: none;
             font-family: 'Irish Grover', cursive;
             font-size: 22px;
-            text-align: center;
             cursor: pointer;
+            display: flex;          
+            justify-content: center;
+            align-items: center;
+            line-height: 1;
+            text-align: center;
         }
         .menu-container {
             display: flex;
@@ -175,15 +179,14 @@
             border: 0.5px solid red;
         }
         .search-button {
-            display: flex;               /* Отображаем как flex */
-            justify-content: center;     /* Центруем горизонтально */
-            align-items: center;         /* Центруем по вертикали */
-            margin: 0 auto 10px auto;    /* По центру страницы */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 10px auto;
             background-color: #6A6A6A;
             border-radius: 20px;
             padding: 0 10px;
             height: 36px;
-            width: fit-content;
             width: calc(100% - 40px);
             max-width: 400px;
         }
