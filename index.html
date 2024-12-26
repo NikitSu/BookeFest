@@ -98,11 +98,8 @@
             white-space: nowrap;
             margin: 20px 10px;
             padding: 10px 0;
-            border: 1px solid transparent;
-            transition: border 1s;
-        }
-        .scrolling-buttons.active-touch {
-            border: 1px solid red;
+            border: 2px solid red;
+            border-radius: 10px;
         }
         .scrolling-buttons::-webkit-scrollbar {
             display: none;
@@ -156,12 +153,7 @@
         let scrollingContainer = getElementBySelector(".scrolling-buttons");
         let startX = 0;
         let scrollLeft = 0;
-        let hideTimer = null;
         function handleTouchStart(e) {
-            if (hideTimer) {
-                clearTimeout(hideTimer);
-            }
-            scrollingContainer.classList.add("active-touch");
             startX = e.touches[0].pageX - scrollingContainer.offsetLeft;
             scrollLeft = scrollingContainer.scrollLeft;
         }
@@ -171,15 +163,8 @@
             let walk = x - startX;
             scrollingContainer.scrollLeft = scrollLeft - walk;
         }
-        function handleTouchEnd(e) {
-            hideTimer = setTimeout(function() {
-                scrollingContainer.classList.remove("active-touch");
-            }, 1000);
-        }
         subscribeEvent("touchstart", scrollingContainer, handleTouchStart, { passive: false });
-        subscribeEvent("touchmove", scrollingContainer, handleTouchMove, { passive: false });
-        subscribeEvent("touchend", scrollingContainer, handleTouchEnd, { passive: false });
-        subscribeEvent("touchcancel", scrollingContainer, handleTouchEnd, { passive: false });
+        subscribeEvent("touchmove",  scrollingContainer, handleTouchMove,  { passive: false });
     </script>
 </body>
 </html>
