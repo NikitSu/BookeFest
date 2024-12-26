@@ -92,20 +92,21 @@
             background-color: black;
             border: 1px solid red;
         }
-
-        /* Область с кнопками + белая обводка */
         .scrolling-buttons {
             display: flex;
-            overflow-x: auto;      /* Горизонтальная прокрутка */
-            white-space: nowrap;   /* Не переносить кнопки на новую строку */
+            overflow-x: auto;
+            white-space: nowrap;
             margin: 20px 10px;
             padding: 10px 0;
-            border: 2px solid white; /* Белая обводка вокруг блока */
+            border: 1px solid transparent;
+            transition: border 1s;
+        }
+        .scrolling-buttons.active-touch {
+            border: 1px solid red;
         }
         .scrolling-buttons::-webkit-scrollbar {
-            display: none; /* Скрыть полосу прокрутки в WebKit-браузерах */
+            display: none;
         }
-
         .scrolling-button {
             flex: 0 0 auto;
             margin: 0 10px;
@@ -132,13 +133,11 @@
         <div></div>
         <div></div>
     </button>
-
     <div class="menu-container">
         <button class="menu-button">Лучшие проекты 2024 года<br>НОМИНАНТЫ</button>
         <button class="menu-button">ВНИМАНИЕ ТОЛЬКО НА ВАС</button>
         <button class="menu-button">TMA, которые выбрали пользователи</button>
     </div>
-
     <div class="scrolling-buttons">
         <button class="scrolling-button">Лучшие</button>
         <button class="scrolling-button">Полезные</button>
@@ -153,49 +152,34 @@
         <button class="scrolling-button">Полезные</button>
         <button class="scrolling-button">Прошедшие проверку</button>
     </div>
-
-    <!-- Блок SimpleScript, обрабатывающий свайпы (прокрутку пальцем) по горизонтали -->
     <script type="text/simplescript">
-        /*
-          Предположим, что в SimpleScript есть подобные функции:
-            - getElementBySelector(selector: string): Element
-            - subscribeEvent(eventName: string, element: Element, callback: function, options?: any)
-            - event.preventDefault()
-            - event.touches (для touchstart, touchmove)
-          
-          Логика соответствует классическому JS-коду для горизонтального свайпа:
-            1) При touchstart запоминаем начальное положение пальца (startX) и текущее scrollLeft.
-            2) При touchmove вычисляем, на сколько «сдвинулись» по оси X, и обновляем scrollLeft accordingly.
-        */
-
         let scrollingContainer = getElementBySelector(".scrolling-buttons");
-
-        let startX = 0;      // Координата, где коснулись пальцем
-        let scrollLeft = 0;  // Текущее значение скролла контейнера
-
+        let startX = 0;
+        let scrollLeft = 0;
+        let hideTimer = null;
         function handleTouchStart(e) {
-            // Точка, где пользователь коснулся экрана (учитываем позицию самого контейнера)
+            if (hideTimer) {
+                clearTimeout(hideTimer);
+            }
+            scrollingContainer.classList.add("active-touch");
             startX = e.touches[0].pageX - scrollingContainer.offsetLeft;
-            // Запоминаем текущий scrollLeft
             scrollLeft = scrollingContainer.scrollLeft;
         }
-
         function handleTouchMove(e) {
-            // Отключаем дефолтную (вертикальную) прокрутку страницы, чтобы «свайп» ушёл в горизонтальный контейнер
             e.preventDefault();
-
-            // Текущее «касание» пальца
             let x = e.touches[0].pageX - scrollingContainer.offsetLeft;
-            // Разница, насколько пользователь «увёл» палец от начальной точки
             let walk = x - startX;
-
-            // Обновляем scrollLeft (чем дальше ведёт палец, тем больше прокрутка)
             scrollingContainer.scrollLeft = scrollLeft - walk;
         }
-
-        // Подключаем обработчики (passive: false — чтобы e.preventDefault() работало)
+        function handleTouchEnd(e) {
+            hideTimer = setTimeout(function() {
+                scrollingContainer.classList.remove("active-touch");
+            }, 1000);
+        }
         subscribeEvent("touchstart", scrollingContainer, handleTouchStart, { passive: false });
-        subscribeEvent("touchmove",  scrollingContainer, handleTouchMove,  { passive: false });
+        subscribeEvent("touchmove", scrollingContainer, handleTouchMove, { passive: false });
+        subscribeEvent("touchend", scrollingContainer, handleTouchEnd, { passive: false });
+        subscribeEvent("touchcancel", scrollingContainer, handleTouchEnd, { passive: false });
     </script>
 </body>
 </html>
