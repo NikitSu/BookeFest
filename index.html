@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <!-- Важно: установите начальный масштаб и ширину устройства -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Black Background Page</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap"/>
@@ -99,24 +100,27 @@
             width: 20px;
             height: 20px;
         }
+        /* Исправляем «сплющивание»: жёстко задаём высоту/ширину и центрируем содержимое */
         .question-button {
             position: absolute;
             top: 80px;
             right: 10px;
             width: 36px;
             height: 36px;
+            min-width: 36px;
+            min-height: 36px;
             border-radius: 50%;
             background-color: #333;
             color: #fff;
             border: none;
             font-family: 'Irish Grover', cursive;
             font-size: 22px;
-            cursor: pointer;
-            display: flex;          
+            line-height: 1;
+            display: flex;
             justify-content: center;
             align-items: center;
-            line-height: 1;
-            text-align: center;
+            cursor: pointer;
+            box-sizing: border-box;
         }
         .menu-container {
             display: flex;
@@ -279,7 +283,7 @@
             scrollingContainer.scrollLeft = scrollLeft - walk;
         }
         subscribeEvent("touchstart", scrollingContainer, handleTouchStart, { passive: false });
-        subscribeEvent("touchmove", scrollingContainer, handleTouchMove,  { passive: false });
+        subscribeEvent("touchmove", scrollingContainer, handleTouchMove, { passive: false });
 
         function onMagnClick() {
             let inputField = getElementBySelector(".search-form__txt");
