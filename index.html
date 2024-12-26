@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <!-- Важно: установите начальный масштаб и ширину устройства -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Не забудьте использовать нужный initial-scale, чтобы мобильные устройства не искажали размеры -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Black Background Page</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap"/>
     <style>
@@ -100,28 +100,31 @@
             width: 20px;
             height: 20px;
         }
-        /* Исправляем «сплющивание»: жёстко задаём высоту/ширину и центрируем содержимое */
+
+        /* Жёстко фиксируем ширину/высоту, убираем «сплющивание» */
         .question-button {
             position: absolute;
             top: 80px;
             right: 10px;
-            width: 36px;
-            height: 36px;
-            min-width: 36px;
-            min-height: 36px;
+            width: 40px; 
+            height: 40px; 
+            min-width: 40px;
+            min-height: 40px;
             border-radius: 50%;
             background-color: #333;
             color: #fff;
             border: none;
             font-family: 'Irish Grover', cursive;
             font-size: 22px;
-            line-height: 1;
             display: flex;
-            justify-content: center;
             align-items: center;
-            cursor: pointer;
+            justify-content: center;
+            text-align: center;
+            line-height: 1; 
             box-sizing: border-box;
+            cursor: pointer;
         }
+
         .menu-container {
             display: flex;
             flex-direction: column;
@@ -283,7 +286,7 @@
             scrollingContainer.scrollLeft = scrollLeft - walk;
         }
         subscribeEvent("touchstart", scrollingContainer, handleTouchStart, { passive: false });
-        subscribeEvent("touchmove", scrollingContainer, handleTouchMove, { passive: false });
+        subscribeEvent("touchmove", scrollingContainer, handleTouchMove,  { passive: false });
 
         function onMagnClick() {
             let inputField = getElementBySelector(".search-form__txt");
