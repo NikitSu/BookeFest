@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Black Background Page</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .close-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 15px;
+            background-color: #333;
+            color: #ddd;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .close-button:hover {
+            background-color: #444;
+        }
+        .close-button::before {
+            content: '\00d7';
+            margin-right: 8px;
+            font-size: 20px;
+            color: #ddd;
+        }
+        .settings-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .settings-button div {
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+        .settings-button div:nth-child(1) {
+            width: 20px;
+        }
+        .settings-button div:nth-child(2) {
+            width: 25px;
+        }
+        .settings-button div:nth-child(3) {
+            width: 30px;
+        }
+        .settings-button div + div {
+            margin-top: 3px;
+        }
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 100px;
+        }
+        .menu-button {
+            display: block;
+            width: calc(100% - 40px);
+            max-width: 400px;
+            margin: 10px auto;
+            padding: 15px;
+            text-align: center;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .menu-button:hover {
+            color: white;
+            background-color: black;
+            border: 1px solid red;
+        }
+
+        /* Область с кнопками + белая обводка */
+        .scrolling-buttons {
+            display: flex;
+            overflow-x: auto;      /* Горизонтальная прокрутка */
+            white-space: nowrap;   /* Не переносить кнопки на новую строку */
+            margin: 20px 10px;
+            padding: 10px 0;
+            border: 2px solid white; /* Белая обводка вокруг блока */
+        }
+        .scrolling-buttons::-webkit-scrollbar {
+            display: none; /* Скрыть полосу прокрутки в WebKit-браузерах */
+        }
+
+        .scrolling-button {
+            flex: 0 0 auto;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .scrolling-button:hover {
+            color: white;
+            background-color: black;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <button class="close-button">Закрыть</button>
+    <button class="settings-button">
+        <div></div>
+        <div></div>
+        <div></div>
+    </button>
+
+    <div class="menu-container">
+        <button class="menu-button">Лучшие проекты 2024 года<br>НОМИНАНТЫ</button>
+        <button class="menu-button">ВНИМАНИЕ ТОЛЬКО НА ВАС</button>
+        <button class="menu-button">TMA, которые выбрали пользователи</button>
+    </div>
+
+    <div class="scrolling-buttons">
+        <button class="scrolling-button">Лучшие</button>
+        <button class="scrolling-button">Полезные</button>
+        <button class="scrolling-button">Прошедшие проверку</button>
+        <button class="scrolling-button">Лучшие</button>
+        <button class="scrolling-button">Полезные</button>
+        <button class="scrolling-button">Прошедшие проверку</button>
+        <button class="scrolling-button">Лучшие</button>
+        <button class="scrolling-button">Полезные</button>
+        <button class="scrolling-button">Прошедшие проверку</button>
+        <button class="scrolling-button">Лучшие</button>
+        <button class="scrolling-button">Полезные</button>
+        <button class="scrolling-button">Прошедшие проверку</button>
+    </div>
+
+    <!-- Блок SimpleScript, обрабатывающий свайпы (прокрутку пальцем) по горизонтали -->
+    <script type="text/simplescript">
+        /*
+          Предположим, что в SimpleScript есть подобные функции:
+            - getElementBySelector(selector: string): Element
+            - subscribeEvent(eventName: string, element: Element, callback: function, options?: any)
+            - event.preventDefault()
+            - event.touches (для touchstart, touchmove)
+          
+          Логика соответствует классическому JS-коду для горизонтального свайпа:
+            1) При touchstart запоминаем начальное положение пальца (startX) и текущее scrollLeft.
+            2) При touchmove вычисляем, на сколько «сдвинулись» по оси X, и обновляем scrollLeft accordingly.
+        */
+
+        let scrollingContainer = getElementBySelector(".scrolling-buttons");
+
+        let startX = 0;      // Координата, где коснулись пальцем
+        let scrollLeft = 0;  // Текущее значение скролла контейнера
+
+        function handleTouchStart(e) {
+            // Точка, где пользователь коснулся экрана (учитываем позицию самого контейнера)
+            startX = e.touches[0].pageX - scrollingContainer.offsetLeft;
+            // Запоминаем текущий scrollLeft
+            scrollLeft = scrollingContainer.scrollLeft;
+        }
+
+        function handleTouchMove(e) {
+            // Отключаем дефолтную (вертикальную) прокрутку страницы, чтобы «свайп» ушёл в горизонтальный контейнер
+            e.preventDefault();
+
+            // Текущее «касание» пальца
+            let x = e.touches[0].pageX - scrollingContainer.offsetLeft;
+            // Разница, насколько пользователь «увёл» палец от начальной точки
+            let walk = x - startX;
+
+            // Обновляем scrollLeft (чем дальше ведёт палец, тем больше прокрутка)
+            scrollingContainer.scrollLeft = scrollLeft - walk;
+        }
+
+        // Подключаем обработчики (passive: false — чтобы e.preventDefault() работало)
+        subscribeEvent("touchstart", scrollingContainer, handleTouchStart, { passive: false });
+        subscribeEvent("touchmove",  scrollingContainer, handleTouchMove,  { passive: false });
+    </script>
+</body>
+</html>
