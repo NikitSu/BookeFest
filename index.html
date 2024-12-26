@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Black Background Page</title>
-    <!-- Подключаем шрифт Irish Grover -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap"/>
     <style>
         body {
             margin: 0;
@@ -42,7 +41,7 @@
             top: 10px;
             right: 10px;
             width: 40px;
-            height: 40px;
+            height: 35px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -70,7 +69,7 @@
         }
         .star-container {
             position: absolute;
-            top: 75px; 
+            top: 80px;
             left: 15px;
             display: flex;
             align-items: center;
@@ -87,7 +86,6 @@
         }
         .plus-button {
             margin-left: 8px;
-            background-color: #0f0;
             width: 20px;
             height: 20px;
             border-radius: 50%;
@@ -103,7 +101,7 @@
         }
         .question-button {
             position: absolute;
-            top: 75px; 
+            top: 80px;
             right: 10px;
             width: 36px;
             height: 36px;
@@ -113,7 +111,6 @@
             border: none;
             font-family: 'Irish Grover', cursive;
             font-size: 22px;
-            line-height: 36px;
             text-align: center;
             cursor: pointer;
         }
@@ -121,8 +118,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            /* Было 100px, смещаем ещё на 10px */
-            margin-top: 140px;
+            margin-top: 160px;
         }
         .menu-button {
             display: block;
@@ -134,8 +130,8 @@
             background-color: #333;
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 20px;
+            font-size: 20px;
             cursor: pointer;
             transition: all 0.3s;
         }
@@ -148,10 +144,15 @@
             display: flex;
             overflow-x: auto;
             white-space: nowrap;
-            margin: 20px 10px;
+            margin: 80px 10px 20px;
             padding: 10px 0;
+            border-radius: 15px;
+        }
+        .scrolling-buttons::-ms-thumb {
             border: 0.5px solid red;
-            border-radius: 10px;
+        }
+        .scrolling-buttons:hover {
+            border: 0.5px solid red;
         }
         .scrolling-buttons::-webkit-scrollbar {
             display: none;
@@ -163,7 +164,7 @@
             background-color: #333;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 20px;
             font-size: 16px;
             cursor: pointer;
             transition: all 0.3s;
@@ -172,6 +173,44 @@
             color: white;
             background-color: black;
             border: 0.5px solid red;
+        }
+        .search-button {
+            display: flex;               /* Отображаем как flex */
+            justify-content: center;     /* Центруем горизонтально */
+            align-items: center;         /* Центруем по вертикали */
+            margin: 0 auto 10px auto;    /* По центру страницы */
+            background-color: #6A6A6A;
+            border-radius: 20px;
+            padding: 0 10px;
+            height: 36px;
+            width: fit-content;
+            width: calc(100% - 40px);
+            max-width: 400px;
+        }
+        .magn-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-right: 5px;
+        }
+        .magn-button img {
+            width: 18px;
+            height: 18px;
+        }
+        .search-form__txt {
+            background-color: #6A6A6A;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            color: white;
+            height: 30px;
+            width: calc(100% - 40px);
+            max-width: 400px;
+        }
+        .search-form__txt::placeholder {
+            color: rgb(231, 231, 231);
         }
     </style>
 </head>
@@ -190,6 +229,7 @@
             <img src="plus-button.png" alt="Plus Button">
         </button>
     </div>
+
     <button class="question-button">?</button>
 
     <div class="menu-container">
@@ -213,10 +253,18 @@
         <button class="scrolling-button">Прошедшие проверку</button>
     </div>
 
+    <div class="search-button">
+        <button class="magn-button">
+            <img src="magn.png" alt="Magnifier Icon">
+        </button>
+        <input class="search-form__txt" type="text" placeholder="Поиск проекта...">
+    </div>
+
     <script type="text/simplescript">
         let scrollingContainer = getElementBySelector(".scrolling-buttons");
         let startX = 0;
         let scrollLeft = 0;
+
         function handleTouchStart(e) {
             startX = e.touches[0].pageX - scrollingContainer.offsetLeft;
             scrollLeft = scrollingContainer.scrollLeft;
@@ -229,6 +277,15 @@
         }
         subscribeEvent("touchstart", scrollingContainer, handleTouchStart, { passive: false });
         subscribeEvent("touchmove", scrollingContainer, handleTouchMove,  { passive: false });
+
+        function onMagnClick() {
+            let inputField = getElementBySelector(".search-form__txt");
+            let searchText = inputField.value;
+            alert("Поиск для: " + searchText);
+        }
+
+        let magnifierButton = getElementBySelector(".magn-button");
+        subscribeEvent("click", magnifierButton, onMagnClick, false);
     </script>
 </body>
 </html>
