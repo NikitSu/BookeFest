@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Black Background Page</title>
+    <!-- Подключаем шрифт Irish Grover -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap" />
     <style>
         body {
             margin: 0;
@@ -55,22 +57,72 @@
             border-radius: 2px;
         }
         .settings-button div:nth-child(1) {
-            width: 20px;
+            width: 40px;
         }
         .settings-button div:nth-child(2) {
-            width: 25px;
+            width: 55px;
         }
         .settings-button div:nth-child(3) {
-            width: 30px;
+            width: 70px;
         }
         .settings-button div + div {
             margin-top: 3px;
+        }
+        .star-container {
+            position: absolute;
+            top: 75px; 
+            left: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+        .star-icon {
+            width: 44px;
+            height: 44px;
+        }
+        .star-count {
+            margin-left: 4px;
+            font-size: 32px;
+            color: #fff;
+        }
+        .plus-button {
+            margin-left: 8px;
+            background-color: #0f0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .plus-button img {
+            width: 20px;
+            height: 20px;
+        }
+        .question-button {
+            position: absolute;
+            top: 75px; 
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            font-family: 'Irish Grover', cursive;
+            font-size: 22px;
+            line-height: 36px;
+            text-align: center;
+            cursor: pointer;
         }
         .menu-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 100px;
+            /* Было 100px, смещаем ещё на 10px */
+            margin-top: 140px;
         }
         .menu-button {
             display: block;
@@ -98,7 +150,7 @@
             white-space: nowrap;
             margin: 20px 10px;
             padding: 10px 0;
-            border: 2px solid red;
+            border: 0.5px solid red;
             border-radius: 10px;
         }
         .scrolling-buttons::-webkit-scrollbar {
@@ -119,7 +171,7 @@
         .scrolling-button:hover {
             color: white;
             background-color: black;
-            border: 1px solid red;
+            border: 0.5px solid red;
         }
     </style>
 </head>
@@ -130,11 +182,22 @@
         <div></div>
         <div></div>
     </button>
+
+    <div class="star-container">
+        <img src="star.png" alt="Star Icon" class="star-icon" />
+        <span class="star-count">0</span>
+        <button class="plus-button">
+            <img src="plus-button.png" alt="Plus Button">
+        </button>
+    </div>
+    <button class="question-button">?</button>
+
     <div class="menu-container">
         <button class="menu-button">Лучшие проекты 2024 года<br>НОМИНАНТЫ</button>
         <button class="menu-button">ВНИМАНИЕ ТОЛЬКО НА ВАС</button>
         <button class="menu-button">TMA, которые выбрали пользователи</button>
     </div>
+
     <div class="scrolling-buttons">
         <button class="scrolling-button">Лучшие</button>
         <button class="scrolling-button">Полезные</button>
@@ -149,6 +212,7 @@
         <button class="scrolling-button">Полезные</button>
         <button class="scrolling-button">Прошедшие проверку</button>
     </div>
+
     <script type="text/simplescript">
         let scrollingContainer = getElementBySelector(".scrolling-buttons");
         let startX = 0;
@@ -164,7 +228,7 @@
             scrollingContainer.scrollLeft = scrollLeft - walk;
         }
         subscribeEvent("touchstart", scrollingContainer, handleTouchStart, { passive: false });
-        subscribeEvent("touchmove",  scrollingContainer, handleTouchMove,  { passive: false });
+        subscribeEvent("touchmove", scrollingContainer, handleTouchMove,  { passive: false });
     </script>
 </body>
 </html>
