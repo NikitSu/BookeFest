@@ -92,6 +92,7 @@
             height: 20px;
             border-radius: 50%;
             border: none;
+            background-color: transparent;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -106,8 +107,8 @@
             position: absolute;
             top: 80px;
             right: 10px;
-            width: 40px; 
-            height: 40px; 
+            width: 40px;
+            height: 40px;
             min-width: 40px;
             min-height: 40px;
             border-radius: 50%;
@@ -120,7 +121,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            line-height: 1; 
+            line-height: 1;
             box-sizing: border-box;
             cursor: pointer;
         }
@@ -131,6 +132,7 @@
             align-items: center;
             margin-top: 160px;
         }
+
         .menu-button {
             display: block;
             width: calc(100% - 40px);
@@ -149,36 +151,42 @@
         .menu-button:hover {
             color: white;
             background-color: black;
+        }
+        /* При наведении на любую menu-button, кроме attention-button, появится красная рамка */
+        .menu-button:not(.attention-button):hover {
             border: 1px solid red;
         }
 
         @keyframes redPulse {
-            0% {
+            0%, 100% {
+                border-color: rgba(255, 0, 0, 1);
                 box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.5);
-                border: 2px solid rgba(255, 0, 0, 1);
             }
             50% {
+                border-color: rgba(255, 0, 0, 0.2);
                 box-shadow: 0 0 15px 4px rgba(255, 0, 0, 0.2);
-                border: 2px solid rgba(255, 0, 0, 0.2);
-            }
-            100% {
-                box-shadow: 0 0 5px 2px rgba(255, 0, 0, 0.5);
-                border: 2px solid rgba(255, 0, 0, 1);
             }
         }
+
+        .attention-button {
+            border: 2px solid transparent;
+            animation: redPulse 2s infinite;
+            box-sizing: border-box;
+        }
+
         .scrolling-buttons {
             display: flex;
             overflow-x: auto;
             white-space: nowrap;
-            margin: 80px 10px 20px;
+            margin: 70px 10px 20px;
             padding: 10px 0;
             border-radius: 15px;
-            animation: redPulse 2s infinite; /* Подключаем анимацию */
+            box-sizing: border-box;
+            border: 2px solid transparent;
         }
         .scrolling-buttons::-webkit-scrollbar {
             display: none;
         }
-
         .scrolling-button {
             flex: 0 0 auto;
             margin: 0 10px;
@@ -256,7 +264,7 @@
 
     <div class="menu-container">
         <button class="menu-button">Лучшие проекты 2024 года<br>НОМИНАНТЫ</button>
-        <button class="menu-button">ВНИМАНИЕ ТОЛЬКО НА ВАС</button>
+        <button class="menu-button attention-button">ВНИМАНИЕ ТОЛЬКО НА ВАС</button>
         <button class="menu-button">TMA, которые выбрали пользователи</button>
     </div>
 
@@ -298,7 +306,7 @@
             scrollingContainer.scrollLeft = scrollLeft - walk;
         }
         subscribeEvent("touchstart", scrollingContainer, handleTouchStart, { passive: false });
-        subscribeEvent("touchmove", scrollingContainer, handleTouchMove, { passive: false });
+        subscribeEvent("touchmove", scrollingContainer, handleTouchMove,  { passive: false });
 
         function onMagnClick() {
             let inputField = getElementBySelector(".search-form__txt");
