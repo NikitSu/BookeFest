@@ -6,6 +6,15 @@
     <title>Black Background Page</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap"/>
     <style>
+        /* Отключаем выделение текста/элементов на всех устройствах */
+        * {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none;   /* Chrome/Safari/Opera */
+            -moz-user-select: none;      /* Firefox */
+            -ms-user-select: none;       /* IE/Edge */
+            user-select: none;           /* Стандарт */
+        }
+
         body {
             margin: 0;
             background-color: black;
@@ -132,7 +141,6 @@
             align-items: center;
             margin-top: 160px;
         }
-
         .menu-button {
             display: block;
             width: calc(100% - 40px);
@@ -152,7 +160,6 @@
             color: white;
             background-color: black;
         }
-        /* При наведении на любую menu-button, кроме attention-button, появится красная рамка */
         .menu-button:not(.attention-button):hover {
             border: 1px solid red;
         }
@@ -167,7 +174,6 @@
                 box-shadow: 0 0 15px 4px rgba(255, 0, 0, 0.2);
             }
         }
-
         .attention-button {
             border: 2px solid transparent;
             animation: redPulse 2s infinite;
